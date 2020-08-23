@@ -1,15 +1,19 @@
 package com.example.musicplayer;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
     MediaPlayer mediaPlayer;
@@ -30,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void playHandler(View view){
+    public void playHandler(View view) {
         if (mediaPlayer.isPlaying()) { // если есть звук
             stopSound();
             setImagePlay();
@@ -40,11 +44,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void prevHandler(View view){
+    public void prevHandler(View view) {
+        /*
+        Метод отвечает за передвижение ползунка в начало
+         */
+        volumeSeekBar.setProgress(0);// ползунок в 0
+        mediaPlayer.seekTo(0); // и музыка с начала
+        stopSound();
+        setImagePlay();
     }
 
-    public void nextHandler(View view){
-
+    public void nextHandler(View view) {
+        /*
+        Метод отвечает за передвижение ползунка в конец
+         */
+        volumeSeekBar.setProgress(mediaPlayer.getDuration()-1);// ползунок в длительность трэка
+        mediaPlayer.seekTo(mediaPlayer.getDuration()-1); // и музыка с конца
+        stopSound();
+        setImagePlay();
     }
 
     public void playSound() {
@@ -55,54 +72,61 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer.pause();// останавливаем
     }
 
-    private void initMediaPlayer(){
+    private void initMediaPlayer() {
         mediaPlayer = MediaPlayer.create(getApplicationContext(),
                 R.raw.stuff);// указываем .mp3 mediaPlayer
     }
 
 
-    private void setImagePlay(){
+    private void setImagePlay() {
         playButtonImage = findViewById(R.id.playButtonImage);
         playButtonImage.setImageResource(R.drawable.ic_baseline_play_arrow_24);
 
     }
 
-    private void setImagePause(){
+    private void setImagePause() {
         playButtonImage = findViewById(R.id.playButtonImage);
         playButtonImage.setImageResource(R.drawable.ic_baseline_pause_24);
     }
 
-    private void clickedSeekBar(){
+    private void clickedSeekBar() {
         /*
-        метод отвечает за изменение громкости от SeekBar- эквалайзера
+        метод отвечает за перемещение SeekBar- эквалайзера в зависимости от пройденного
+        времени трэка
          */
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);// вызов службы аудио
-        // макс системное значение проигрывателя
-        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-
         volumeSeekBar = findViewById(R.id.volumeSeekBar);
-        volumeSeekBar.setMax(maxVolume); // устанавливаем макс звук
-        // прослеживаем seekBar
+        // устанавливаем макс звук как длительность трэка
+        initMediaPlayer();
+        volumeSeekBar.setMax(mediaPlayer.getDuration());
+        // реализуем прокрутку трэка с помощью seekbar
         volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            // измененение ползунка
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                Log.d("Progress ",""+i);// logging debug
-                // установка громкости
-                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,i,0);
+                if(b){ // если пользователь взаимодействует с seekbar
+                    mediaPlayer.seekTo(i);// перематываем трэк
+                }
             }
 
-            // касание ползунка
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
 
-            // отпускание ползунка
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
         });
+
+        // для работы с переодичными действиями
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                // устанавливвем на seekbar пройденное время трэка
+                volumeSeekBar.setProgress(mediaPlayer.getCurrentPosition());
+            }
+        }, 0, 1000);//задержка , переодичность
+
     }
 }
