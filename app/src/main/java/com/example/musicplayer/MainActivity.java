@@ -30,11 +30,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void prevHandler(View view){
-
+    public void playHandler(View view){
+        if (mediaPlayer.isPlaying()) { // если есть звук
+            stopSound();
+            setImagePlay();
+        } else {// если нет звука
+            playSound();
+            setImagePause();
+        }
     }
 
-
+    public void prevHandler(View view){
+    }
 
     public void nextHandler(View view){
 
@@ -53,32 +60,22 @@ public class MainActivity extends AppCompatActivity {
                 R.raw.stuff);// указываем .mp3 mediaPlayer
     }
 
-    private void clickPlayButtonImage() {
-        playButtonImage = findViewById(R.id.playButtonImage);
-        // устанавливаем прослушивание кнопки чтобы при нажатии происходило действие
-        playButtonImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mediaPlayer.isPlaying()) { // если есть звук
-                    stopSound();
-                    setImagePlay();
-                } else {// если нет звука
-                    playSound();
-                    setImagePause();
-                }
-            }
-        });
-    }
 
     private void setImagePlay(){
+        playButtonImage = findViewById(R.id.playButtonImage);
+        playButtonImage.setImageResource(R.drawable.ic_baseline_play_arrow_24);
 
     }
 
     private void setImagePause(){
-
+        playButtonImage = findViewById(R.id.playButtonImage);
+        playButtonImage.setImageResource(R.drawable.ic_baseline_pause_24);
     }
 
     private void clickedSeekBar(){
+        /*
+        метод отвечает за изменение громкости от SeekBar- эквалайзера
+         */
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);// вызов службы аудио
         // макс системное значение проигрывателя
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);

@@ -37,11 +37,25 @@
 
 
     <ImageView
-        android:id="@+id/prevButtonImage"
+        android:id="@+id/prevBackgroundImage"
         android:layout_width="78dp"
         android:layout_height="77dp"
         android:layout_margin="20dp"
         android:background="@drawable/small_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.075"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.892"
+        tools:ignore="ContentDescription"
+        android:onClick="prevHandler"/>
+
+    <ImageView
+        android:id="@+id/prevButtonImage"
+        android:layout_width="78dp"
+        android:layout_height="77dp"
+        android:layout_margin="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.075"
@@ -53,7 +67,7 @@
         android:onClick="prevHandler"/>
 
     <ImageView
-        android:id="@+id/playButtonImage"
+        android:id="@+id/playBackgroundImage"
         android:layout_width="78dp"
         android:layout_height="77dp"
         android:layout_margin="20dp"
@@ -64,8 +78,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.889"
+        tools:ignore="ContentDescription"
+        android:onClick="playHandler"
+        />
+
+    <ImageView
+        android:id="@+id/playButtonImage"
+        android:layout_width="78dp"
+        android:layout_height="77dp"
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.889"
         app:srcCompat="@drawable/ic_baseline_play_arrow_24"
         tools:ignore="ContentDescription"
+        android:onClick="playHandler"
+        />
+
+    <ImageView
+        android:id="@+id/nextBackgroundImage"
+        android:layout_width="78dp"
+        android:layout_height="77dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/small_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.951"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.891"
+        tools:ignore="ContentDescription"
+        android:onClick="nextHandler"
         />
 
     <ImageView
@@ -73,7 +119,6 @@
         android:layout_width="78dp"
         android:layout_height="77dp"
         android:layout_margin="20dp"
-        android:background="@drawable/small_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.951"
@@ -93,7 +138,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.684"
-        android:outlineAmbientShadowColor="@color/textButton"
-        android:outlineSpotShadowColor="@color/textButton"/>
+        />
+
+    <ImageView
+        android:id="@+id/pauseButtonImage"
+        android:layout_width="78dp"
+        android:layout_height="77dp"
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.889"
+        tools:ignore="ContentDescription"
+        app:srcCompat="@drawable/ic_baseline_pause_24"
+        android:alpha="0"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
